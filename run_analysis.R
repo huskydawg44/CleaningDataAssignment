@@ -86,4 +86,4 @@ myData<-group_by(myData,DataType,subjectID,Activity)
 mytidydata<-summarize_each(myData,funs(mean))
 
 # export tidy data set to working directory
-write.csv(mytidydata,file="tidydata.csv")
+write.csv(mytidydata,file="tidydata.csv", row.name = FALSE)
