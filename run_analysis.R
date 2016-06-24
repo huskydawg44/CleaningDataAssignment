@@ -1,11 +1,14 @@
 ## Set Working directory to UCI HAR Dataset provided by instructors.
-# setwd("UCI HAR Dataset") This will depend on where you saved the UCI HAR Dataset.
+# setwd("UCI HAR Dataset") This will depend on where you saved the UCI HAR Dataset folder.
 
 # Load dplyr package
 library(dplyr)
 
 # Load featurelist from file
 featurelist<-read.table("features.txt")
+
+#name columns of featurelist
+names(featurelist)<-c("featureId","featureName")
 
 # Load activity labels from file
 activitylabels<-read.table("activity_labels.txt",colClasses = c("numeric","character"))
@@ -39,17 +42,17 @@ names(totalsubj)[1]<-"subjectID"
 rm("testsubject","x_test","y_test")
 rm("trainsubject","x_train","y_train")
 
-# Idendity columns containing "mean" and "std" in them
-keep_columns<-grep("mean|std",featurelist$V2)
+# Idendity columns containing "mean" and "std" in their name
+keep_columns<-grep("mean|std",featurelist$featureName)
 
 # Reduce x_total and featurelist variables to only the columns/rows in keep_columns
 x_total<-select(x_total,keep_columns)
 featurelist<-featurelist[keep_columns,]
 
 # Apply names from featurelist to x_total
-names(x_total)<-featurelist$V2
+names(x_total)<-featurelist$featureName
 
-# Clean names
+# Clean special characters from column names
 names(x_total)<-gsub("-","",names(x_total))
 names(x_total)<-gsub("\\(","",names(x_total))
 names(x_total)<-gsub("\\)","",names(x_total))
